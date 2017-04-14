@@ -1,0 +1,234 @@
+\section{Addtional problems}
+
+\begin{enumerate}
+	\item 
+	Explain precisely following abbreaviations:
+
+	TCP, HTTP, SMTP, DNS, FTP, ATM, ISDN, ADSL, HFC, ISP, WAP, LAN, WAN, MAN, WLAN, ISO, OSI
+	
+	\textbf{Answer: (Thanks to the Wikipedia)}
+
+	\qquad \textbf{TCP: Transmission Control Protocol} is one of the main protocols of the Internet protocol suite. It originated in the initial network implementation in which it complemented the Internet Protocol (IP). Therefore, the entire suite is commonly referred to as TCP/IP. TCP provides reliable, ordered, and error-checked delivery of a stream of octets between applications running on hosts communicating by an IP network. Major Internet applications such as the World Wide Web, email, remote administration, and file transfer rely on TCP.
+	
+	\qquad \textbf{HTTP: HyperText Transfer Protocol} is an application protocol for distributed, collaborative, and hypermedia information systems. HTTP is the foundation of data communication for the World Wide Web (WWW).
+	
+	\qquad \textbf{SMTP: Simple Mail Transfer Protocol} is an Internet standard for electronic mail (email) transmission.
+	
+	\qquad \textbf{DNS: Domain Name System} is a hierarchical decentralized naming system for computers, services, or other resources connected to the Internet or a private network. It associates various information with domain names assigned to each of the participating entities. Most prominently, it translates more readily memorized domain names to the numerical IP addresses needed for locating and identifying computer services and devices with the underlying network protocols.
+	
+	\qquad \textbf{FTP: File Transfer Protocol} is a standard network protocol used for the transfer of computer files from a server to a client using the Client–server model on a computer network.
+	
+	\qquad \textbf{ATM: Asynchronous Transfer Mode} is, according to the ATM Forum, "a telecommunications concept defined by ANSI and ITU (formerly CCITT) standards for carriage of a complete range of user traffic, including voice, data, and video signals". ATM was developed to meet the needs of the Broadband Integrated Services Digital Network, as defined in the late 1980s, and designed to unify telecommunication and computer networks. It was designed for a network that must handle both traditional high-throughput data traffic (e.g., file transfers), and real-time, low-latency content such as voice and video.
+	
+	\qquad \textbf{ISDN: Integrated Services Digital Network} is a set of communication standards for simultaneous digital transmission of voice, video, data, and other network services over the traditional circuits of the public switched telephone network.
+	
+	\qquad \textbf{ADSL: Asymmetric Digital Subscriber Line} is a type of digital subscriber line (DSL) technology, a data communications technology that enables faster data transmission over copper telephone lines rather than a conventional voiceband modem can provide. ADSL differs from the less common symmetric digital subscriber line (SDSL). In ADSL, Bandwidth and bit rate are said to be asymmetric, meaning greater toward the customer premises (downstream) than the reverse (upstream). Providers usually market ADSL as a service for consumers for Internet access for primarily downloading content from the Internet, but not serving content accessed by others.
+	
+	\qquad \textbf{HFC: Hybrid Fiber-coxial Cable} is a telecommunications industry term for a broadband network that combines optical fiber and coaxial cable.
+	
+	\qquad \textbf{ISP: Internet Service Providers} is an organization that provides services for accessing and using the Internet. Internet service providers may be organized in various forms, such as commercial, community-owned, non-profit, or otherwise privately owned.
+
+    Internet services typically provided by ISPs include Internet access, Internet transit, domain name registration, web hosting, Usenet service, and colocation.
+	
+	\qquad \textbf{WAP: Wireless Application Protocol} is a technical standard for accessing information over a mobile wireless network.
+			
+	\qquad \textbf{LAN: Local Area Network} is a computer network that interconnects computers within a limited area such as a residence, school, laboratory, university campus or office building and has its network equipment and interconnects locally managed.
+	 
+	\qquad \textbf{WAN: Wide Area Network} is a telecommunications network or computer network that extends over a large geographical distance.
+	
+	\qquad \textbf{MAN: Metropolitan Area Network} is a computer network that interconnects users with computer resources in a geographic area or region larger than that covered by even a large local area network (LAN) but smaller than the area covered by a wide area network (WAN).
+	
+	\qquad\textbf{WLAN: Wireless Local Area Networks} is a wireless computer network that links two or more devices using a wireless distribution method (often spread-spectrum or OFDM radio) within a limited area such as a home, school, computer laboratory, or office building. This gives users the ability to move around within a local coverage area and yet still be connected to the network. A WLAN can also provide a connection to the wider Internet.
+	
+	\qquad \textbf{ISO: Internatioal Organization for Standardization} is an international standard-setting body composed of representatives from various national standards organizations.
+	
+	\qquad \textbf{OSI: Open Systems Interconnection} is an effort to standardize computer networking that was started in 1977 by the International Organization for Standardization (ISO), along with the ITU-T. \textbf{OSI model} is a conceptual model that characterizes and standardizes the communication functions of a telecommunication or computing system without regard to their underlying internal structure and technology. Its goal is the interoperability of diverse communication systems with standard protocols. The model partitions a communication system into abstraction layers.
+
+	\item Explain following concepts:
+
+    TCP/IP, Circuit switching, Packet switching, Message switching, Virtual circuit
+    
+    \textbf{Answer: (Thanks to the Wikipedia again)}
+	
+	\qquad \textbf{TCP/IP}: The Internet protocol suite is the conceptual model and set of communications protocols used on the Internet and similar computer networks. It is commonly known as TCP/IP because the original protocols in the suite are the Transmission Control Protocol (TCP) and the Internet Protocol (IP).
+
+	\qquad \textbf{Circuit switching}: Circuit switching is a method of implementing a telecommunications network in which two network nodes establish a dedicated communications channel (circuit) through the network before the nodes may communicate. The circuit guarantees the full bandwidth of the channel and remains connected for the duration of the communication session. The circuit functions as if the nodes were physically connected as with an electrical circuit.
+
+	\qquad \textbf{Packet switching}: Packet switching is a digital networking communications method that groups all transmitted data into suitably sized blocks, called packets, which are transmitted via a medium that may be shared by multiple simultaneous communication sessions. Packet switching increases network efficiency and robustness, and enables technological convergence of many applications operating on the same network.
+	
+	\qquad \textbf{Message switching}: Message switching is the precursor of packet switching, where messages were routed in their entirety, one hop at a time.
+	
+	\qquad \textbf{Virtual circuit}: Virtual circuit is a means of transporting data over a packet switched computer network in such a way that it appears as though there is a dedicated physical layer link between the source and destination end systems of this data. The term virtual circuit is synonymous with virtual connection and virtual channel.
+\end{enumerate}
+
+\section{Problems on textbook}
+\subsection{Review questions}
+
+\begin{enumerate}
+	\item[R11.] Suppose there is exactly one packet switch between a sending host and a receiving host. The transmission rates between the sending host and the switch and between the switch and the receiving host are R1 and R2, respectively. Assuming that the switch uses store-and-forward packet switching, what is the total end-to-end delay to send a packet of length L? (Ignore queuing, propagation delay, and processing delay.)
+	
+	\textbf{Answer:}
+	
+    As the description goes, we only take transmission delay into consideration.
+
+    So the total end-to-end delay $T$ is:
+	$$
+		T = t_{transmission} = \frac{L}{R_{1}} + \frac{L}{R_{2}}
+	$$
+
+	\item[R12.]
+	What advantage does a circuit-switched network have over a packet-switched
+	network? What advantages does TDM have over FDM in a circuit-switched
+	network?
+	
+	\textbf{Answer:}
+	
+	\begin{enumerate}
+		\item Circuit-switched network vs Packet-switched network:
+
+		\begin{itemize}
+			\item Circuit-switched network has less delay.
+			
+			\item Once connection established, circuit-switched network allows users occupy the resources until end-points close the connection.
+		\end{itemize}
+	
+		\item TDM vs FDM
+		
+		TDM and FDM have no conflicts. They are in different dimensions (Time and Frequency). In circuit-switched network, circuit multiplexing is used to enhance user concurrency. Because distinguish among users by time is much simple than by frequency, nowadays TDM has a better enhancement to user concurrency.
+		
+	\end{enumerate}
+	
+	\item[R14.] Why will two ISPs at the same level of the hierarchy often peer with each other? How does an IXP earn money?
+	
+	\textbf{Answer:}
+	
+	By peering with each other directly, the two ISPs can reduce their payments to their provider ISPs. An Internet Exchange Points is a meeting point where multiple ISPs can connect and/or peer together. An ISP earns its money by charging each of the ISPs that connect to the IXP a relatively small fee, which may depend on the amount of traffic sent to or received from the IXP.
+	
+	\item[R19.]
+	Suppose Host A wants to send a large file to Host B. The path from Host A to
+	Host B has three links, of rates $R_{1}$ = 500 kbps, $R_{2}$ = 2 Mbps, and $R_{3}$ = 1 Mbps.
+	
+	\begin{enumerate}
+    	\item Assuming no other traffic in the network, what is the throughput for the file transfer?
+    	
+    	\item Suppose the file is 4 million bytes. Dividing the file size by the throughput,	roughly how long will it take to transfer the file to Host B?
+    	
+    	\item Repeat (a) and (b), but now with $R_{2}$ reduced to 100 kbps.	    
+	\end{enumerate}
+	
+	\textbf{Answer:}
+
+	\begin{enumerate}
+		\item Throughput:
+
+		$$
+		    T_p =  \min\{R_1, R_2, R_3\} = R_2 = 500 kbps 
+		$$
+
+		\item Transfer Time:
+		
+		$$
+    		T_{transfer} = \frac{L}{T_p} = \frac{4 MB}{500 kbps} = 65.536 s
+		$$
+
+		\item Throughput \& Transfer Time with $R_2 = 100 kbps$
+		
+		\begin{align*}
+    		& T_p  = \min\{R_1, R_2, R_3\} = R_2 = 100 kbps \\
+    		& T_{transfer} = \frac{L}{T_p} = \frac{4 MB}{100 kpbs} = 327.68 s
+		\end{align*}
+	\end{enumerate}
+		
+	\subsection{Problems}
+	\item[P5.] Review the car-caravan analogy in Section 1.4. Assume a propagation speed of 100 km/hour.
+	
+	\begin{enumerate}
+    	\item Suppose the caravan travels 150 km, beginning in front of one tollbooth, passing through a second tollbooth, and finishing just after a third tollbooth. What is the end-to-end delay?
+    	
+    	\item Repeat (a), now assuming that there are eight cars in the caravan instead	of ten.	    
+	\end{enumerate}
+	
+	\textbf{Answer:}
+	\begin{enumerate}
+		\item 
+		\begin{equation*}
+			\begin{split}
+				t & = t_{propagation} + t_{transmission} \\ & = 10 \times 12 s \times 3 + \dfrac{150}{100} h \\ & = 1 h \ 36 min
+			\end{split}
+		\end{equation*}
+		
+		\item 
+		\begin{equation*}
+			\begin{split}
+				t & = t_{propagation} + t_{transmission} \\ & = 8 \times 12 s \times 3 + \dfrac{150}{100} h \\ & = 1 h\ 34 min\ 48 s
+			\end{split}
+		\end{equation*}
+	\end{enumerate}
+	
+	\item[P12.] A packet switch receives a packet and determines the outbound link to which the packet should be forwarded. When the packet arrives, one other packet is halfway done being transmitted on this outbound link and four other packets are waiting to be transmitted. Packets are transmitted in order of arrival. Suppose all packets are 1,500 bytes and the link rate is 2 Mbps. What is the queuing delay for the packet? More generally, what is the queuing delay when all packets have length L, the transmission rate is R, x bits of the currently-being-transmitted packet have been transmitted, and n packets are already in the queue?
+	
+	\textbf{Answer:}
+	
+	There are \textbf{four and a half} packets are waiting to be transmitted before the lastest packet, so the queuing delay is:
+	
+	\begin{equation*}
+		\begin{split}
+			t & = \frac{4.5 \times 1500 bytes}{2 Mbps} \\ 
+			  & = 0.0257 s;
+		\end{split}
+	\end{equation*}
+		
+	For the more generally problem, it remains $n L + L - x \text{bits}$ waiting before, so the queueing delay is:
+	
+	$$
+		t_{queueing} = \dfrac{n L + L - x \text{bits}}{R}
+	$$
+	
+	\item[P14.] Consider the queuing delay in a router buffer. Let $ I $ denote traffic intensity; that is, $ I = \dfrac{La}{R} $. Suppose that the queuing delay takes the form $ \dfrac{IL}{R (1 – I)} $ for $ I < 1 $.
+	
+	\begin{enumerate}
+    	\item Provide a formula for the total delay, that is, the queuing delay plus the transmission delay.
+    	
+    	\item Plot the total delay as a function of $\dfrac{L}{R}$.
+	\end{enumerate}
+	
+	\textbf{Answer:}
+	
+	Assume that $a$ denotes the average rate at which packets arrive in bursts; $R$ is the transmission rate; all packets consist of $L$ bits.
+	\begin{enumerate}
+	    \item 
+	    
+		\begin{equation*}
+			\begin{split}
+				& t_{transmission} = \frac{L}{R}, \\
+				& T = d_{queuing} + d_{transmission}
+			\end{split}
+		\end{equation*}
+		
+		so we can figure out total delay $T$:
+		
+		\begin{equation}
+		    \label{eq:1}
+            T = \frac{I L}{R (1 - I)} + \frac{L}{R} 
+		\end{equation}
+			
+		\item transform equation \ref{eq:1}:
+		\begin{equation}
+			\begin{split}
+				T & = \frac{I L}{R (1 - I)} + \frac{L}{R} \\ 
+				  & = \frac{\frac{L a}{R} L}{R (1 - \frac{L a}{R})} + \frac{L}{R} \\ 
+				  & = \frac{\frac{L}{R}}{1 - a \frac{L}{R}}
+			\end{split}
+		\end{equation}
+		And here is the plot:
+		\begin{center}
+			\begin{tikzpicture}
+				% draw the axis
+				\draw[eaxis] (-0.5,0) -- (10,0) node[below] {$\frac{L}{R}$};
+				\draw[eaxis] (0,-0.5) -- (0,10) node[above] {$T$};
+				% draw the function (piecewise)
+				\draw[elegant,domain=0:9] plot(\x,{\x/(10-\x) + 1});
+			\end{tikzpicture}
+		\end{center}
+	\end{enumerate}
+\end{enumerate}

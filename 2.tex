@@ -1,0 +1,198 @@
+\begin{enumerate}
+    \item Explain precisely following abbreviations:
+    
+    URL, HTML, RTT, MIME, TFTP, NFS, SNMP, JPEG, MPEG.
+    
+    \textbf{Answer: (Thanks to the Wikipedia)}
+    
+    \begin{itemize}
+        \item URL
+
+        A \textbf{Uniform Resource Locator (URL)}, commonly informally termed a web address (a term which is not defined identically) is a reference to a web resource that specifies its location on a computer network and a mechanism for retrieving it.
+        
+        \item HTML
+        
+        \textbf{Hypertext Markup Language (HTML)} is the standard markup language for creating web pages and web applications.
+        
+        \item RTT
+        
+        The \textbf{round-trip time (RTT)} is the length of time it takes for a signal to be sent plus the length of time it takes for an acknowledgment of that signal to be received.
+        
+        \item MIME
+        
+        \textbf{Multipurpose Internet Mail Extensions (MIME)} is an Internet standard that extends the format of email to support:
+        
+        \begin{enumerate}
+            \item Text in character sets other than ASCII
+            \item Non-text attachments: audio, video, images, application programs etc.
+            \item Message bodies with multiple parts
+            \item Header information in non-ASCII character sets
+        \end{enumerate}
+        
+        \item TFTP
+        
+        \textbf{Trivial File Transfer Protocol (TFTP)} is a simple lockstep File Transfer Protocol which allows a client to get a file from or put a file onto a remote host.
+        
+        \item NFS
+        
+        \textbf{Network File System (NFS)} is a distributed file system protocol originally developed by Sun Microsystems in 1984, allowing a user on a client computer to access files over a computer network much like local storage is accessed.
+        
+        \item SNMP
+        
+        \textbf{Simple Network Management Protocol (SNMP)} is an Internet-standard protocol for collecting and organizing information about managed devices on IP networks and for modifying that information to change device behavior.
+        
+        \item JPEG
+        
+        The \textbf{Joint Photographic Experts Group (JPEG)} is a commonly used method of lossy compression for digital images, particularly for those images produced by digital photography.
+        
+        \item MPEG
+        
+        The \textbf{Moving Picture Experts Group (MPEG)} is a working group of authorities that was formed by ISO and IEC to set standards for audio and video compression and transmission.
+        
+    \end{itemize}
+    
+    \item Specify following system Organization:
+    
+    Email system, DNS system
+    
+    \textbf{Answer:}
+    
+    \begin{itemize}
+        \item Email system
+        
+        Electronic mail, or email, is a method of exchanging digital messages between people using digital devices such as computers and mobile phones.
+        
+        There are 2 types of entity in email system: \textbf{user agent} and \textbf{mail server}.
+        
+        User agent implements an user interface for email operations like read, sent, save, reply, etc.
+        
+        Mail server receive emails sent from user agent and send them to target mail server.
+        
+        User agent can't send email to target mail server directly. Instead, user agent should send email to source mail server first, and then source mail server send the mail to the target mail server.
+        
+        The communication between mail servers relied on SMTP. 
+        
+        The application-layer protocol between user agent and mail server can be any protocols based on TCP, like SMTP, HTTP, etc.
+        
+        \item DNS system
+        
+        The Domain Name System (DNS) is a hierarchical decentralized naming system for computers, services, or other resources connected to the Internet or a private network.
+        
+        DNS maintains a map from hostname to Internet entity (typically described as IP).
+        
+        People perfer to remember human-readable hostname rather than encoded address (IP).
+        
+        DNS is actually an adapter between human-readable hostname and computer-friendly address.
+        
+        If user wants to access a resource hosted by a server (maybe localhost or remote), user agent (browser, cli or others) should make a request to DNS for the corresponding IP address first, and then access the IP directly.
+        
+        In order to accelerate query speed and strengthen DNS system, DNS uses multi-level cache to make the query as fast as possible.
+        
+        To keep hostname-IP tuple sync among all the DNS server (cache) has two different ways: iterate and recursive.
+        
+        
+    \end{itemize}
+    
+    % using Editor 4
+    \item[P1.] True or false? 
+    
+    \begin{enumerate}
+        \item A user requests a Web page that consists of some text and three images. For this page, the client will send one request message and receive four response messages.
+        
+        \textbf{Answer: False}
+        
+        Each request map to a corresponding response. The client will send one request (multipart) and receive one response.
+        
+        \item Two distinct Web pages (for example, www.mit.edu/research.html and www.mit.edu/students.html) can be sent over the same persistent connection.
+        
+        \textbf{Answer: True}
+        
+        \item With nonpersistent connections between browser and origin server, it is possible for a single TCP segment to carry two distinct HTTP request messages.
+        
+        \textbf{Answer: False}
+        
+        With non-persistent connection, one HTTP request requires one TCP connection (segment).
+        
+        \item The Date: header in the HTTP response message indicates when the object in the response was last modified.
+        
+        \textbf{Answer: False}
+        
+        The Last-Modified header is.
+        
+        \item HTTP response messages never have an empty message body.
+        
+        \textbf{Answer: False}
+        
+        According to HTTP status 204 (No Content), HTTP response body can be empty.
+        
+    \end{enumerate}
+    
+    % using Editor 4
+    \item[P6.] Consider an HTTP client that wants to retrieve a Web document at a given URL. The IP address of the HTTP server is initially unknown. What transport and application-layer protocols besides HTTP are needed in this scenario?
+    
+    \textbf{Answer:}
+    
+    Transport-layer protocols:
+    
+    \begin{itemize}
+        \item TCP
+        
+        Used by HTTP
+        
+        \item UDP
+        
+        Used by the DNS protocol
+    \end{itemize}
+    
+    Application-layer protocols:
+    
+    \begin{itemize}
+        \item The DNS protocol
+    \end{itemize}
+    
+    % using Editor 4
+    \item[D6.] What is the Apache Web server? How much does it cost? What functionality does it currently have?
+    
+    The Apache HTTP Server, colloquially called Apache, is the world's most used web server software.
+    
+    It's free for everyone.
+    
+    According to the Wikipedia page of the Apache HTTP Server, list the features:
+    
+    \begin{itemize}
+        \item Loadable Dynamic Modules
+        \item Multiple Request Processing modes (MPMs) including Event-based/Async, Threaded and Prefork.
+        \item Highly scalable (easily handles more than 10,000 simultaneous connections)
+        \item Handling of static files, index files, auto-indexing and content negotiation
+        \item .htaccess support
+        \item Reverse proxy with caching
+        \item Load balancing with in-band health checks
+        \item Multiple load balancing mechanisms
+        \item Fault tolerance and Failover with automatic recovery
+        \item WebSocket, FastCGI, SCGI, AJP and uWSGI support with caching
+        \item Dynamic configuration
+        \item TLS/SSL with SNI and OCSP stapling support, via OpenSSL.
+        \item Name- and IP address-based virtual servers
+        \item IPv6-compatible
+        \item HTTP/2 protocol support
+        \item Fine-grained authentication and authorization access control
+        \item gzip compression and decompression
+        \item URL rewriting
+        \item Headers and content rewriting
+        \item Custom logging with rotation
+        \item Concurrent connection limiting
+        \item Request processing rate limiting
+        \item Bandwidth throttling
+        \item Server Side Includes
+        \item IP address-based geolocation
+        \item User and Session tracking
+        \item WebDAV
+        \item Embedded Perl, PHP and Lua scripting
+        \item CGI support
+        \item public\_html per-user web-pages
+        \item Generic expression parser
+        \item Real-time status views
+        \item XML support
+    \end{itemize}
+    
+\end{enumerate}
