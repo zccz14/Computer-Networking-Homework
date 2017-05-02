@@ -1,0 +1,131 @@
+# Reliable Sending
+NextSeqNum = InitialSeqNumber
+SendBase = InitialSeqNumber
+
+event: data received from application above
+    create TCP segment with sequence number NextSeqNum
+    if (timer currently not running)
+        start timer
+    pass segment to IP
+    NextSeqNum = NextSeqNum + length(data)
+
+event: timer timeout
+    retransmit not-yet-acknowledged segment with
+    smallest sequence number
+
+event: ACK received, with ACK field value of y
+    if (y > sendBase)
+        SendBase = y
+        if (there are currently any not yet acknowledged segments)
+            start timer
+    else
+        increment number of duplicate ACKs
+            received for y
+        if (number of duplicate ACKS received for y == 3)
+            resend segment with sequence number y
+
+# Reliable Receiving
+ReceiveBase = InitialSeqNumber
+RcvWinSize = SomeValue
+
+event: segment received with segment number of y
+    if (ReceiveBase <= y && y < ReceiveBase + RcvWinSize)
+        if (have not received y)
+            cache this segment
+        if (y == ReceiveBase)
+            deliver received adjacent segments starting from y to application above
+            ReceiveBase = ReceiveBase + length(delivered)
+        send ACK with ACK field value of ReceiveBase
+    else if (ReceiveBase - RcvWinSize <= y && y < ReceiveBase)
+        send ACK with ACK field value of ReceiveBase
+    else
+        ignore the segment
+
+# Flow Control
+
+## For Sender
+LastByteSent = InitialSeqNumber
+LastByteAcked = InitialSeqNumber
+NextSendSize = 1
+
+event: ACK received, with ReceiveWindowSize field value of rwnd, ACK field value of y
+    LastByteAcked = y
+    NextSendSize = rwnd - (LastByteSent - LastByteAcked)
+    if (NextSendSize <= 0)
+        NextSendSize = 1
+
+event: data received from application above
+    ensure length(segment) is no more than NextSendSize
+    LastByteSent = LastByteSent + length(segment)
+
+## For Receiver
+RcvBuffer = SomeValue
+LastByteRcvd = InitialSeqNumber
+LastByteRead = InitialSeqNumber
+
+event: deliver data to application above
+    LastByteRead = LastByteRead + length(data)
+    
+event: segment received with segment number of y
+    if (LastByteRcvd < y < ReceiveBase + RcvWinSize)
+        LastByteRcvd = y
+
+event: segment receiced, before sending ACK ack
+    attach rwnd field value = RcvBuffer - (LastByteRcvd - LastByteRead)
+
+# Congestion Control (Only For Sender)
+
+cwnd = 1
+ssthresh = 64
+dupACKcount = 0
+state = slow setup
+
+if (state == slow setup)
+    if (cwnd >= ssthresh)
+        state = congestion avoidance
+    if (dupACKcount == 3)
+        ssthresh = cwnd / 2
+        cwnd = ssthresh + 3
+        retransmit missing segment
+    event: duplicate ACK receiced
+        dupACKcount++
+    event: timeout
+        ssthresh = cwnd / 2
+        cwnd = 1
+        dupACKcount = 0
+        retransmit missing segment
+    event: new ACK receiced
+        cwnd++
+        dupACKcount = 0
+        transmit new segment
+else if (state == fast recovery)
+    event: duplicate ACK receiced
+        cwnd++
+        transmit new segment
+    event: timeout
+        state = slow setup
+        ssthresh = cwnd / 2
+        cwnd = 1
+        dupACKcount = 0
+        retransmit missing segment
+    event: new ACK receiced
+        state = congestion avoidance
+        cwnd = ssthresh
+        dupACKcount = 0
+else if (state == congestion avoidance)
+    if (dupACKcount == 3)
+        state = fast recovery
+        ssthresh = cwnd / 2
+        cwnd = ssthresh + 3
+        retransmit missing segment
+    event: duplicate ACK receiced
+        dupACKcount++
+    event: new ACK receiced
+        cwnd++
+        dupACKcount = 0
+        transmit new segment
+    event: timeout
+        ssthresh = cwnd / 2
+        cwnd = 1
+        dupACKcount = 0
+        retransmit missing segment

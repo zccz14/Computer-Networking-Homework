@@ -1,0 +1,429 @@
+\begin{enumerate}
+	\item Explain precisely following abbreviations:
+	
+	UDP, FSM, ABR, EFCI, AIMD, MSS
+	
+	\textbf{Answer: (Thanks to Wikipedia)}
+	
+	\begin{enumerate}
+	    \item UDP
+	    
+	    the User Datagram Protocol (UDP) is one of the core members of the Internet protocol suite. UDP uses a simple connectionless transmission model with a minimum of protocol mechanism. 
+	    
+	    \item FSM
+	    
+	    A finite-state machine (FSM) or finite-state automaton (FSA, plural: automata), finite automaton, or simply a state machine, is a mathematical model of computation. It is an abstract machine that can be in exactly one of a finite number of states at any given time. The FSM can change from one state to another in response to some external inputs; the change from one state to another is called a transition. A FSM is defined by a list of its states, its initial state, and the conditions for each transition.
+	    
+	    \item ABR
+	    
+	    Available bit rate (ABR) is a service used in ATM networks when source and destination don't need to be synchronized. ABR does not guarantee against delay or data loss. ABR mechanisms allow the network to allocate the available bandwidth fairly over the present ABR sources. ABR is one of five service categories defined by the ATM Forum for use in an ATM Network.
+	    
+	    \item EFCI
+	    
+	    Explicit Forward Congestion Indication indicates whether the network is congestion now.
+	    
+	    \item AIMD
+	    
+	    The additive-increase/multiplicative-decrease (AIMD) algorithm is a feedback control algorithm best known for its use in TCP congestion control. AIMD combines linear growth of the congestion window with an exponential reduction when a congestion takes place. Multiple flows using AIMD congestion control will eventually converge to use equal amounts of a contended link.
+	    
+	    \item MSS
+	    
+	    The maximum segment size (MSS) is a parameter of the options field of the TCP header that specifies the largest amount of data, specified in bytes, that a computer or communications device can receive in a single TCP segment.
+	    
+	\end{enumerate}
+	
+	\item Which services can TCP and UDP provide?
+	
+	\textbf{Answer:}
+	
+	TCP provides reliable, ordered, and error-checked delivery of a stream of octets between applications running on hosts communicating by an IP network. 
+	
+	TCP has following attributes:
+
+	\begin{enumerate}
+    	\item Reliable transmission (based on dupack and timeout)
+    	\item Flow control
+    	\item Congestion control
+    	\item Connection management
+    \end{enumerate}
+	
+	UDP provides a connectionless datagram service that emphasizes reduced latency over reliability.
+	
+	\item Write following TCP algorithms:
+	
+	\begin{enumerate}
+    	\item Reliable sending
+    	\item Reliable receiving
+    	\item Flow control
+    	\item Congestion control
+	\end{enumerate}
+
+    \textbf{Answer:}
+    
+    \lstinputlisting[basicstyle=\ttfamily\small]{3_algo.txt}
+
+	\item[R3.] Consider a TCP connection between Host A and Host B. 
+	
+	Suppose that the TCP segments traveling from Host A to Host B have source port number x and destination port number y. What are the source and destination port numbers for the segments traveling from Host B to Host A?
+	
+	\textbf{Answer:}
+	
+	The source port number is y, and the destination port number is x.
+	
+	\item[R4.] Describe why an application developer might choose to run an application over UDP rather than TCP.
+	
+	\textbf{Answer:}
+	
+	\begin{enumerate}
+	    \item free controll logic
+	    \item needn't establish connection
+	    \item needn't maintain connection states
+	    \item less cost of head
+	\end{enumerate}
+	
+	\item[R7.] Suppose a process in Host C has a UDP socket with port number 6789. Suppose both Host A and Host B each send a UDP segment to Host C with destination port number 6789. Will both of these segments be directed to the same socket at Host C? If so, how will the process at Host C know that these two segments originated from two different hosts?
+	
+	\textbf{Answer:}
+	
+	Yes. Host C can distinguish between them by IP address.
+	
+	\item[P4.] 
+	\begin{enumerate}
+    	\item Suppose you have the following 2 bytes: 01011100 and 01100101. What is the 1s complement of the sum of these 2 bytes?
+    	
+    	\textbf{Answer:}
+    	
+    	00111110
+    	
+    	\item Suppose you have the following 2 bytes: 11011010 and 01100101. What is the 1s complement of the sum of these 2 bytes?
+    	
+    	\textbf{Answer:}
+    	
+    	10111111
+    	
+    	\item For the bytes in part (a), give an example where one bit is flipped in each of the 2 bytes and yet the 1s complement doesn’t change.
+    	
+    	\textbf{Answer:}
+    	
+    	01011100 to 01011101
+    	
+    	01100101 to 01100100
+    	
+	\end{enumerate}
+	
+	\item[P10.] Consider a channel that can lose packets but has a maximum delay that is known. Modify protocol rdt2.1 to include sender timeout and retransmit.	Informally argue why your protocol can communicate correctly over this channel.
+	
+	\textbf{Answer:}
+	
+	\begin{figure}[H]
+        \centering
+        \resizebox{\textwidth}{!}{
+        \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=4.8cm,
+                            semithick]
+            \node[state, initial, label={Wait for call 0 from above}] (0) {0};
+            \node[state, label={Wait for ACK or NAK 0}] (1) [right of = 0] {1};
+            \node[state, label={Wait for call 1 from above}] (2) [below of = 1] {2};
+            \node[state, label={Wait for ACK or NAK 1}] (3) [left of = 2] {3};
+            
+            \path
+            (0) edge [bend left] node {
+                \begin{tabular}{c}
+                    rdt\_send(data) \\
+                    \hline
+                    sndpkt=make\_pkt(0, data, checksum) \\
+                    udt\_send(sndpkt) \\
+                    \textbf{reset\_timer}
+                \end{tabular}
+            } (1)
+            (1) edge node {
+                \begin{tabular}{c}
+                    rdt\_rcv(rcvpkt) \&\& notcorrupt(rcvpkt) \&\& isACK(rcvpkt) \\
+                    \hline
+                    \textbf{stop\_timer}
+                \end{tabular}
+            } (2)
+                edge [loop right] node {
+                \begin{tabular}{c}
+                    rdt\_rcv(rcvpkt) \&\& (corrupt(rcvpkt) \textbar \textbar isNAK(rcvpkt)) \textbf{\textbardbl isTimeout} \\
+                    \hline
+                    udt\_send(sndpkt) \\
+                    \textbf{reset\_timer}
+                \end{tabular}
+            } (1)
+            (2) edge [bend left] node {
+                \begin{tabular}{c}
+                    rdt\_send(data) \\
+                    \hline
+                    sndpkt=make\_pkt(1, data, checksum) \\
+                    udt\_send(sndpkt) \\
+                    \textbf{reset\_timer}
+                \end{tabular}
+            } (3)
+            (3) edge node {
+                \begin{tabular}{c}
+                    rdt\_rcv(rcvpkt) \&\& notcorrupt(rcvpkt) \&\& isACK(rcvpkt) \\
+                    \hline
+                    \textbf{stop\_timer} 
+                \end{tabular}
+            } (0)
+                edge [loop left] node {
+                \begin{tabular}{c}
+                    rdt\_rcv(rcvpkt) \&\& (corrupt(rcvpkt) \textbar \textbar isNAK(rcvpkt)) \textbf{\textbardbl isTimeout} \\
+                    \hline
+                    udt\_send(sndpkt) \\
+                    \textbf{reset\_timer}
+                \end{tabular}
+            } (3)
+            ;
+        \end{tikzpicture}
+        }
+        \caption{Modified rdt 2.1 sender}
+        \label{fig:1}
+    \end{figure}
+    
+    This protocol can communicate correctly over this channel because the receiver can handle \textbf{duplicate data packet} correctly. This protocol only add a mechanism to setup timeout retransmit based on rdf 2.1.
+	
+	\item[P16.] Suppose an application uses rdt 3.0 as its transport layer protocol. As the stop-and-wait protocol has very low channel utilization (shown in the crosscountry example), the designers of this application let the receiver keep sending back a number (more than two) of alternating ACK 0 and ACK 1 even if the corresponding data have not arrived at the receiver. Would this application design increase the channel utilization? Why? Are there any potential problems with this approach? Explain.
+	
+	\textbf{Answer:}
+	
+	Yes, sender will receive expected ACK in a very short time after sending data packet, and then sender is ready for sending next packet. So the channel utilization can be almost 100\%.
+	
+	But the ACK mechanism is lost. It's stupid to send ACK or NAK, which abuse the resouces of network.
+	
+	\item[P21.] Suppose we have two network entities, A and B. B has a supply of data messages that will be sent to A according to the following conventions. When A	gets a request from the layer above to get the next data (D) message from B, A must send a request (R) message to B on the A-to-B channel. Only when B	receives an R message can it send a data (D) message back to A on the B-toA channel. A should deliver exactly one copy of each D message to the layer	above. R messages can be lost (but not corrupted) in the A-to-B channel; D	messages, once sent, are always delivered correctly. The delay along both channels is unknown and variable. 
+	
+	Design (give an FSM description of) a protocol that incorporates the appropriate mechanisms to compensate for the loss-prone A-to-B channel and implements message passing to the layer above at entity A, as discussed above. Use only those mechanisms that are absolutely necessary.
+	
+	\textbf{Answer:}
+	
+	Like rdt 2.x, it is a stop-and-wait protocol.
+	
+	Because D is always delivered correctly, A need not to check D, \textbf{and side-B ensures that no redundant D messages are sent.}
+	
+	Once side-A receive D message, it's just the one to deliver.
+	
+	If R message is lost, side-A wait for timeout and then resend the same packet. According to conventions, R message can not be corrupted, so side-B need not check R.
+	
+	\begin{figure}[H]
+        \centering
+        % \resizebox{\textwidth}{!}{
+        \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=4.8cm,
+                            semithick]
+            \node[state, initial, label={Wait for call 0 from above}] (0) {0};
+            \node[state, label={Wait for D0}] (1) [right of = 0] {1};
+            \node[state, label={Wait for call 1 from above}] (2) [below of = 1] {2};
+            \node[state, label={Wait for D1}] (3) [left of = 2] {3};
+            
+            \path
+            (0) edge [bend left] node {
+                \begin{tabular}{c}
+                    rdt\_send(R) \\
+                    \hline
+                    sndpkt=make\_pkt(0, R) \\
+                    udt\_send(sndpkt) \\
+                    \textbf{reset\_timer}
+                \end{tabular}
+            } (1)
+            (1) edge node {
+                \begin{tabular}{c}
+                    rdt\_rcv(D) \\
+                    \hline
+                    \textbf{stop\_timer} \\
+                    deliver\_data(D)
+                \end{tabular}
+            } (2)
+                edge [loop right] node {
+                \begin{tabular}{c}
+                    isTimeout \\
+                    \hline
+                    udt\_send(sndpkt) \\
+                    \textbf{reset\_timer}
+                \end{tabular}
+            } (1)
+            (2) edge [bend left] node {
+                \begin{tabular}{c}
+                    rdt\_send(R) \\
+                    \hline
+                    sndpkt=make\_pkt(1, R) \\
+                    udt\_send(sndpkt) \\
+                    \textbf{reset\_timer}
+                \end{tabular}
+            } (3)
+            (3) edge node {
+                \begin{tabular}{c}
+                    rdt\_rcv(D) \\
+                    \hline
+                    \textbf{stop\_timer} \\
+                    deliver\_data(D)
+                \end{tabular}
+            } (0)
+                edge [loop left] node {
+                \begin{tabular}{c}
+                    isTimeout \\
+                    \hline
+                    udt\_send(sndpkt) \\
+                    \textbf{reset\_timer}
+                \end{tabular}
+            } (3)
+            ;
+        \end{tikzpicture}
+        % }
+        \caption{side A FSM}
+        \label{fig:2_A}
+    \end{figure}
+
+	\begin{figure}[H]
+        \centering
+        % \resizebox{\textwidth}{!}{
+        \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=4.8cm,
+                            semithick]
+            \node[state, initial, label={Wait for R0}] (0) {0};
+            \node[state, label={Wait for R1}] (1) [right of = 0] {1};
+            
+            \path
+            (0) edge [bend left] node {
+                \begin{tabular}{c}
+                    rdt\_rcv(R) \&\& has\_seq0(R) \\
+                    \hline
+                    sndpkt=make\_pkt(D) \\
+                    udt\_send(sndpkt)
+                \end{tabular}
+            } (1)
+            (1) edge [bend left] node {
+                \begin{tabular}{c}
+                    rdt\_rcv(R) \&\& has\_seq1(R) \\
+                    \hline
+                    sndpkt=make\_pkt(D) \\
+                    udt\_send(sndpkt)
+                \end{tabular}
+            } (0)
+            ;
+        \end{tikzpicture}
+        % }
+        \caption{side B FSM}
+        \label{fig:2_B}
+    \end{figure}
+
+	
+	\item[P27.] Host A and B are communicating over a TCP connection, and Host B has already received from A all bytes up through byte 126. Suppose Host A then sends two segments to Host B back-to-back. The first and second segments	contain 80 and 40 bytes of data, respectively. In the first segment, the sequence number is 127, the source port number is 302, and the destination	port number is 80. Host B sends an acknowledgment whenever it receives a segment from Host A.
+	
+	\begin{enumerate}
+    	\item In the second segment sent from Host A to B, what are the sequence number, source port number, and destination port number?
+    	
+    	\textbf{Answer:}
+    	
+    	the sequence number is \textbf{207}. 
+    	
+    	The source port number is \textbf{302}. 
+    	
+    	The destination port number is \textbf{80}.
+    	
+    	\item If the first segment arrives before the second segment, in the acknowledgment of the first arriving segment, what is the acknowledgment number, the source port number, and the destination port number?
+    	
+    	\textbf{Answer:}
+    	
+    	The ACK number is \textbf{207}.
+    	
+    	The source port number is \textbf{80}.
+    	
+    	The destination port number is \textbf{302}.
+    	
+    	\item If the second segment arrives before the first segment, in the acknowledgment of the first arriving segment, what is the acknowledgment
+    	number?
+    	
+    	\textbf{Answer:}
+    	
+    	The ACK number is \textbf{127}.
+    	
+    	\item Suppose the two segments sent by A arrive in order at B. The first acknowledgment is lost and the second acknowledgment arrives after the first timeout interval. Draw a timing diagram, showing these segments and all other segments and acknowledgments sent. (Assume there is no additional packet loss.) For each segment in your figure, provide the sequence number and	the number of bytes of data; for each acknowledgment that you add, provide the acknowledgment number.
+    	
+    	\textbf{Answer:}
+    	
+    % 	\begin{tikzpicture}[font=\sffamily,>=stealth',thick,
+    %     commentl/.style={text width=3cm, align=right},
+    %     commentr/.style={commentl, align=left},]
+    %     \node[] (init) {\LARGE A};
+    %     \node[right=1cm of init] (recv) {\LARGE B};
+        
+        
+    %     \draw[->] ([yshift=-1.7cm]init.south) coordinate (fin1o) -- ([yshift=-.7cm]fin1o-|recv) coordinate (fin1e) node[pos=.3, above, sloped] {FIN};
+        
+    %     \draw[->] ([yshift=-.3cm]fin1e) coordinate (ack1o) -- ([yshift=-.7cm]ack1o-|init) coordinate (ack1e) node[pos=.3, above, sloped] {ACK};
+        
+    %     \draw[->] (ack1e-|recv) coordinate (fin2o) -- ([yshift=-.7cm]fin2o-|init) coordinate (fin2e) node[pos=.3, above, sloped] {FIN};
+        
+    %     \draw[->] ([yshift=-.3cm]fin2e) coordinate (ack2o) -- ([yshift=-.7cm]ack2o-|recv) coordinate (ack2e) node[pos=.3, above, sloped] {ACK};
+        
+    %     \draw[thick, shorten >=-1cm] (init) -- (init|-ack2e);
+    %     \draw[thick, shorten >=-1cm] (recv) -- (recv|-ack2e);
+        
+    %     \draw[dotted] (recv.285)--([yshift=2mm]recv.285|-fin1e) coordinate[pos=.5] (aux1);
+        
+    %     \draw[dotted] (init.255)--([yshift=2mm]init.255|-fin1o);
+        
+    %     \draw[dotted] ([yshift=1mm]init.255|-fin2e) --([yshift=-5mm]init.255|-ack2e) coordinate (aux2);
+        
+    %     \node[commentr, right =2mm of ack2e] {\textbf{CLOSED}};
+    %     \node[commentr, right =2mm of fin2o] {\textbf{LAST ACK}};
+    %     \node[below left = 0mm and 2mm of init.south, commentl]{\textbf{ESTABLISHED}\\[-1.5mm]{\itshape connection}};
+    %     \node[left = 2mm of fin1o.west, commentl]{{\itshape active close}\\[-1mm]\textbf{FIN\_WAIT\_1}};
+    %     \node[left = 2mm of ack1e.west, commentl]{\textbf{FIN\_WAIT\_2}};
+    %     \node[below left = -1mm and 2mm of fin2e.west, commentl]{\textbf{TIME\_WAIT}};
+    %     \node[below left = -1mm and 2mm of aux2-|init, commentl]{\textbf{CLOSED}};
+        
+    %     \node[right = 2mm of recv|-aux1, commentr]{\textbf{ESTABLISHED}\\[-1.5mm]{\itshape connection}};
+    %     \node[right = 2mm of fin1e.west, commentr]{\textbf{CLOSE\_WAIT}\\[-1mm]{\itshape passive close}};
+    %     \end{tikzpicture}
+        
+        \tikzset{
+            host/.style={rectangle,rounded corners,             
+                          thick,draw=#1!60,fill=#1!15},
+            host/.default=blue,
+            trama/.style={thick,draw=#1!60,fill=#1!60},
+            trama/.default=purple,
+            ack/.style={trama=teal},
+        }
+        
+        \begin{figure}[H]
+            \centering
+            \begin{tikzpicture}[>=stealth', font=\small\sffamily]
+                
+                \draw[help lines,->] (0, 1) node[host, above] {A} -- (0, -10);
+                \draw[help lines,->] (4, 1) node[host, above] {B} -- (4, -10);
+                
+                \draw[trama, ->] (0, 0) --++ (4, -2) node[above, midway, sloped] {Seq = 127, Len = 80};
+                \draw[trama, ->] (0, -1) --++ (4, -2) node[above, midway, sloped] {Seq = 207, Len = 40};
+                \draw[ack, ->] (4, -2) --++ (-2, -1) node[above, midway, sloped] {ACK = 207} node[at end] {Lost};
+                \draw[ack, ->] (4, -3) --++ (-4, -2) node[above, midway, sloped] {ACK = 247};
+                
+                \draw (0, 0) --++ (-5mm, 0);
+                \draw (0, -3) --++ (-5mm, 0);
+                \begin{scope}[xshift=-2.5mm]
+                    \draw[<->] (0, 0) -- (0, -3) node[left, midway]{\emph{Timeout}};
+                \end{scope}
+        
+                \draw (0, -1) --++ (-5mm, 0);
+                \draw (0, -4) --++ (-5mm, 0);
+                \begin{scope}[xshift=-3mm]
+                    \draw[<->] (0, -1) -- (0, -4) node[left, midway]{\emph{Timeout}};
+                \end{scope}
+                
+                \draw[trama, ->] (0, -3) --++ (4, -2) node[above, midway, sloped] {Seq = 127, Len = 80};
+                \draw[trama, ->] (0, -4) --++ (4, -2) node[above, midway, sloped] {Seq = 207, Len = 40};
+                \draw[ack, ->] (4, -5) --++ (-4, -2) node[above, midway, sloped] {ACK = 247};
+                \draw[ack, ->] (4, -6) --++ (-4, -2) node[above, midway, sloped] {ACK = 247};
+                
+            \end{tikzpicture}
+            \caption{Sequence Diagram}
+            \label{fig:SD}
+        \end{figure}
+	\end{enumerate}
+	
+	\item[P33.] In Section 3.5.3, we discussed TCP’s estimation of RTT. Why do you think TCP avoids measuring the SampleRTT for retransmitted segments?
+	
+	\textbf{Answer:}
+	
+    We \textbf{cannot} get accurate SampleRTT of retransmitted segments. Under the influence of \textbf{lost of ACK}, the calculated SampleRTT may be much less or greater than the actual SampleRTT.
+	
+\end{enumerate}
