@@ -104,7 +104,7 @@
 	        \hline
 	        step & N' & D(v),p(v) & D(w),p(w) & D(y),p(y) & D(u),p(u) & D(z),p(z) & D(t),p(t) & D(s),p(s) \\
 	        \hline
-	        0 & x & 8,v & 6,w & 6.y & $\infty$ & $\infty$ & $\infty$ & $\infty$ \\
+	        0 & x & 8,v & 6,w & 6,y & $\infty$ & $\infty$ & $\infty$ & $\infty$ \\
 	        1 & xy & 7,y & 6,w & & $\infty$ & 18,y & 15,y & $\infty$ \\
 	        2 & xyw & 7,y & & & 14,w & 18,y & 15,y & $\infty$ \\
 	        3 & xywv & & & & 10,y & 18,y & 11,y & $\infty$ \\
@@ -177,21 +177,28 @@
 	\begin{enumerate}
 	    \item Unicast Emulation
 	    
-	    The sender unicast the packet to 32 receivers, for each:
+	    The sender unicast the packet to 64 receivers, for each:
 	    
-	    The sender send a packet to root router, cost 1.
+	    The root router forward the packet to next router until next node is the receiver, cost $h_i$.
 	    
-	    The root router forward the packet to next router until next node is the receiver, cost 5.
-	    
-	    So unicast emulation cost 32 * (1 + 5) = 192.
+	    So unicast emulation cost $\sum_{i=1}^{64}{h_i}$.
 	    
 	    \item Network-layer broadcast.
 	    	    
-	    Router save and forward the packet, so each link will be only travelled once, cost $1 + 2 + 4 + \cdots + 32 = 63$.
+	    Router save and forward the packet, so each link will be only travelled once.
+	    
+	    In a full binary tree with $n$ leaf nodes, there are $n - 1$ non-leaf nodes, and each non-leaf node has two links. So there are $2(n - 1)$ links in the tree.
+	    
+	    Whatever the binary tree looks like, true network-layer broadcast cost $2(n - 1) = 2 \times (64 - 1) = 126$.
 	    
 	\end{enumerate}
 	
-	To bring the cost of unicast emulation and true network-layer broadcast as far apart as possible, we should make the routes from sender to receivers have more common part. In the most special case, the topology is just like a broom in morphological.
+	With complete binary tree, $h_i = \log_{2}{n}$, unicast emulation cost: $n\log_{2}{n} = 512$.
+
+	To bring the cost of unicast emulation and true network-layer broadcast as far apart as possible, we should make the binary tree looks like a long-chain. $h_i = 1, 2, 3, \cdots, n - 2, n - 1, n - 1$.
 	
+	Unicast Emulation cost: $\sum_{i=1}^{n}{h_i} = \frac{n (n + 1)}{2} - 1 = 2079$.
+	
+	Obviously, we should make the topology like a long-chain.
 	
 \end{enumerate}
